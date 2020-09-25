@@ -9,6 +9,9 @@ app.use(bodyParser.json())
 const userRoute = require('./routes/userRoute')
 app.use('/user', userRoute);
 
+const menuRoute = require('./routes/menuRoute')
+app.use('/menu', menuRoute)
+
 const host = process.env.HOST;
 const port = process.env.PORT;
 app.listen(port, host);
