@@ -28,7 +28,7 @@ router.get('/search', async (req, res) => {
     if (req.query.id.match(/^[0-9a-fA-F]{24}$/)) {
       let user = await User.findById(req.query.id);
       if(user) {
-        res.json({user: user})
+        res.json({res: user})
       } else {
         res.status(404).json({message: 'User does not exist'}) 
       }
@@ -38,7 +38,7 @@ router.get('/search', async (req, res) => {
   } else if(req.query.username) {
     if(await User.exists({username: req.query.username})) {
       let user = await User.findOne({username: req.query.username});
-      res.json({user: user});
+      res.json({res: user});
     } else {
       res.status(404).json({message: 'User does not exist'})
     }
@@ -54,7 +54,7 @@ router.patch('/search', async (req, res) => {
     user.username = req.body.username;
     user.password = req.body.password;
     await user.save()
-    res.json({user: user})
+    res.json({res: user})
   } else {
     res.status(404).json({message: 'User does not exist'})
   }
