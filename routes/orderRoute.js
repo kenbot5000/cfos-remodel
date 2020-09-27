@@ -17,7 +17,8 @@ router.post("/", async (req, res) => {
   if (studentExists) {
     let student = await Student.findOne({student_no: req.body.student_no})
     let newOrder = new Order({
-      student: req.student,
+      student: student,
+      total: 0
     });
     await newOrder.save();
     res.sendStatus(201);
@@ -42,10 +43,11 @@ router
   });
 
 // Add item to existing order
-router.post("/:id/add", async (req, res) => {
+router.post("/:id", async (req, res) => {
   let order = await Order.findById(req.params.id);
   let item = await Menu.findOne({ name: req.body.name });
   order.items.push(item);
+  order.total += item.price
   await order.save();
   res.json({ res: order });
 });
