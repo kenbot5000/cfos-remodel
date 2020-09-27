@@ -15,8 +15,9 @@ router.get("/", async (req, res) => {
 router.post("/", async (req, res) => {
   let studentExists = await Student.exists({ student_no: req.body.student_no });
   if (studentExists) {
+    let student = await Student.findOne({student_no: req.body.student_no})
     let newOrder = new Order({
-      student_no: req.body.student_no,
+      student: req.student,
     });
     await newOrder.save();
     res.sendStatus(201);
