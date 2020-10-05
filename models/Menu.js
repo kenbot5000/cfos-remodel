@@ -4,7 +4,8 @@ let Schema = require('mongoose').Schema;
 const MenuSchema = new Schema({
   name: String,
   price: Number,
-  active: Boolean
+  active: Boolean,
+  stock: Number
 })
 
 const Menu = mongoose.model('Menu', MenuSchema)

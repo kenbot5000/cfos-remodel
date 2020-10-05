@@ -18,10 +18,11 @@ router.post("/", async (req, res) => {
     let student = await Student.findOne({student_no: req.body.student_no})
     let newOrder = new Order({
       student: student,
-      total: 0
+      total: 0,
+      active: false
     });
     await newOrder.save();
-    res.sendStatus(201);
+    res.status(201).json({res: newOrder});
   } else {
     res.status(404).json({ message: "Student not found!" });
   }
@@ -36,6 +37,11 @@ router
   })
   .get(async (req, res) => {
     res.json({ res: req.order });
+  }).patch(async (req, res) => {
+    // Commit to archive
+    req.order.active = false
+    req.order.save()
+    res.sendStatus(204)
   })
   .delete(async (req, res) => {
     await req.order.deleteOne();

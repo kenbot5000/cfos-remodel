@@ -27,11 +27,10 @@ router
       req.student = await Student.findOne({ student_no: req.params.id });
       next();
     } else {
-      res.statusCode(404);
+      res.sendStatus(404);
     }
   })
   .get(async (req, res) => {
-    console.log(req.student);
     res.json({ res: req.student });
   })
   .patch(async (req, res) => {

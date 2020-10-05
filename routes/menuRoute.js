@@ -14,6 +14,7 @@ router.post("/", async (req, res) => {
     name: req.body.name,
     price: req.body.price,
     active: req.body.active,
+    stock: req.body.stock
   });
   await newMenu.save();
   res.sendStatus(201);
@@ -52,6 +53,7 @@ router.patch("/search", async (req, res) => {
         menu.name = req.body.name;
         menu.price = req.body.price;
         menu.active = req.body.active;
+        menu.stock = req.body.stock;
         menu.save();
         res.json({ res: menu });
       } else {
@@ -61,7 +63,7 @@ router.patch("/search", async (req, res) => {
       res.status(400).json({ message: "Not a valid id" });
     }
   } else {
-    res.status(400).json({ message: "Must supply a GET query: id, name" });
+    res.status(400).json({ message: "Must supply a GET query: id" });
   }
 });
 
@@ -69,7 +71,8 @@ router.delete("/search", async (req, res) => {
   if (req.query.id) {
     let itemExists = await Menu.exists({ _id: req.query.id });
     if (itemExists) {
-      await Menu.findOneAndDelete({});
+      await Menu.findOneAndDelete({_id: req.query.id});
+      res.sendStatus(204)
     } else {
       res.status(404).json({ message: "Item does not exist" });
     }

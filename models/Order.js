@@ -4,7 +4,8 @@ let Schema = mongoose.Schema;
 const OrderSchema = new Schema({
   student: Object,
   items: [Schema.Types.Mixed],
-  total: Number
+  total: Number,
+  active: Boolean
 });
 
 const Order = mongoose.model("Order", OrderSchema);
