@@ -38,8 +38,8 @@ router
   .get(async (req, res) => {
     res.json({ res: req.order });
   }).patch(async (req, res) => {
-    // Commit to archive
-    req.order.active = false
+    // Set as active/inactive
+    req.order.active = req.body.active
     req.order.save()
     res.sendStatus(204)
   })
