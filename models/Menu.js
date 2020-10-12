@@ -3,6 +3,7 @@ let Schema = require('mongoose').Schema;
 
 const MenuSchema = new Schema({
   name: String,
+  category: String,
   price: Number,
   active: Boolean,
   stock: Number
