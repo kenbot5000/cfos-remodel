@@ -4,6 +4,12 @@ const router = express.Router();
 const db = require("../db");
 const Menu = require("../models/Menu");
 
+/**
+ * 
+ * MAKE SURE THE POST AND PATCH ROUTES ARE UPDATED TO REFLECT THE MODEL
+ * 
+ */
+
 router.get("/", async (req, res) => {
   menu = await Menu.find();
   res.json({ res: menu });
@@ -12,6 +18,9 @@ router.get("/", async (req, res) => {
 router.post("/", async (req, res) => {
   let newMenu = new Menu({
     name: req.body.name,
+    category: req.body.category,
+    temp: req.body.temp,
+    flavor: req.body.flavor,
     price: req.body.price,
     active: req.body.active,
     stock: req.body.stock
@@ -21,7 +30,9 @@ router.post("/", async (req, res) => {
 });
 
 router.get("/search", async (req, res) => {
+  // Search for menu by ID
   if (req.query.id) {
+    // This ensures that the ID is a valid MongoDB ID
     if (req.query.id.match(/^[0-9a-fA-F]{24}$/)) {
       let menu = await Menu.findById(req.query.id);
       if (menu) {
@@ -32,6 +43,7 @@ router.get("/search", async (req, res) => {
     } else {
       res.status(400).json({ message: "Not a valid id" });
     }
+  // Search for menu by name
   } else if (req.query.name) {
     let regex = new RegExp(req.query.name, "i");
     if (await Menu.exists({ name: regex })) {
@@ -45,12 +57,17 @@ router.get("/search", async (req, res) => {
   }
 });
 
+// Edit menu item
 router.patch("/search", async (req, res) => {
   if (req.query.id) {
     if (req.query.id.match(/^[0-9a-fA-F]{24}$/)) {
       let menu = await Menu.findById(req.query.id);
+      // Edits the menu item
       if (menu) {
         menu.name = req.body.name;
+        menu.category = req.body.category;
+        menu.temp = req.body.temp;
+        menu.flavor = req.body.flavor;
         menu.price = req.body.price;
         menu.active = req.body.active;
         menu.stock = req.body.stock;
