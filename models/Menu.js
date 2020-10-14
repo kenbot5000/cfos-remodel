@@ -5,7 +5,7 @@ const MenuSchema = new Schema({
   name: String,
   category: String,
   temp: String,
-  flavor: String,
+  flavor: [String],
   price: Number,
   active: Boolean,
   stock: Number
