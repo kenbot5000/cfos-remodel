@@ -52,8 +52,28 @@ router
 router.post("/:id", async (req, res) => {
   let order = await Order.findById(req.params.id);
   let item = await Menu.findOne({ name: req.body.name });
-  order.items.push(item);
-  order.total += item.price
+  
+  // Searches order if item was already previously added
+  let orderItemSearch = order.items.findIndex((searchItem, index) => {
+    return searchItem.name == item.name
+  })
+
+  // Pushes new item to order
+  if (orderItemSearch == -1) {
+    // Formats new order item
+    let orderItem = {
+      name: item.name,
+      price: item.price,
+      count: 0
+    }
+    order.items.push(orderItem);
+    console.log(order.items)
+    orderItemSearch = order.items.length - 1
+  }
+  // Existing order item
+    order.items[orderItemSearch].count += 1
+    order.total += order.items[orderItemSearch].price
+  
   await order.save();
   res.json({ res: order });
 });

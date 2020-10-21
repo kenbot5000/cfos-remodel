@@ -1,8 +1,9 @@
 require("dotenv").config();
-const express = require("express");
+
 const consola = require("consola");
 const bodyParser = require("body-parser");
-const app = express();
+
+const { app, server } = require('./socketapp')
 
 app.use(bodyParser.json());
 
@@ -20,7 +21,7 @@ app.use("/order", orderRoute);
 
 const host = process.env.HOST;
 const port = process.env.PORT;
-app.listen(port, host);
+server.listen(port, host);
 consola.ready({
   message: `Server listening on http://${host}:${port}`,
   badge: true,
