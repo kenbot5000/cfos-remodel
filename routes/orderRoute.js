@@ -67,7 +67,6 @@ router.post("/:id", async (req, res) => {
       count: 0
     }
     order.items.push(orderItem);
-    console.log(order.items)
     orderItemSearch = order.items.length - 1
   }
   // Existing order item

@@ -59,29 +59,34 @@ router.get("/search", async (req, res) => {
 
 // Edit menu item
 router.patch("/search", async (req, res) => {
-  if (req.query.id) {
+  let menu;
+
+  if(req.query.id) {
     if (req.query.id.match(/^[0-9a-fA-F]{24}$/)) {
-      let menu = await Menu.findById(req.query.id);
-      // Edits the menu item
-      if (menu) {
-        menu.name = req.body.name;
-        menu.category = req.body.category;
-        menu.temp = req.body.temp;
-        menu.flavor = req.body.flavor;
-        menu.price = req.body.price;
-        menu.active = req.body.active;
-        menu.stock = req.body.stock;
-        menu.save();
-        res.json({ res: menu });
-      } else {
-        res.status(404).json({ message: "Item does not exist" });
-      }
+      menu = await Menu.findById(req.query.id)
     } else {
-      res.status(400).json({ message: "Not a valid id" });
+      res.status(400).json({ message: "Not a valid id" })
     }
-  } else {
-    res.status(400).json({ message: "Must supply a GET query: id" });
   }
+  else if (req.query.name) {
+    menu = await Menu.findOne({ name: req.query.name })
+  }
+  else {
+    res.status(400).json({ message: "Must supply a GET query: id" })
+  }
+  if (menu) {
+    menu.name = req.body.name;
+    menu.category = req.body.category;
+    menu.temp = req.body.temp;
+    menu.flavor = req.body.flavor;
+    menu.price = req.body.price;
+    menu.active = req.body.active;
+    menu.stock = req.body.stock;
+    menu.save();
+    res.json({ res: menu });
+  } else {
+    res.status(404).json({ message: "Item does not exist" });
+  } 
 });
 
 router.delete("/search", async (req, res) => {
