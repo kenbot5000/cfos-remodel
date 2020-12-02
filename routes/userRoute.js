@@ -16,6 +16,8 @@ router.post('/', async (req, res) => {
   } else {
     let newUser = new User({
       username: req.body.username,
+      firstname: req.body.firstname,
+      lastname: req.body.lastname,
       password: req.body.password
     });
     await newUser.save()

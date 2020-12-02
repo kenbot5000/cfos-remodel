@@ -118,3 +118,7 @@ dist
 .env
 
 .vscode
+
+.png
+.jpeg
+.jpg

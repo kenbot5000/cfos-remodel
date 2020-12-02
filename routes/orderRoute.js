@@ -5,6 +5,13 @@ const Order = require("../models/Order");
 const Menu = require("../models/Menu");
 const Student = require("../models/Student");
 
+// Formatting for date objects
+const dateOptions = {
+  month: '2-digit',
+  day: '2-digit',
+  year: 'numeric',
+};
+
 // Get all orders
 router.get("/", async (req, res) => {
   let orders = await Order.find();
@@ -19,7 +26,9 @@ router.post("/", async (req, res) => {
     let newOrder = new Order({
       student: student,
       total: 0,
-      active: false
+      active: false,
+      date: new Date(),
+      seller: req.body.seller
     });
     await newOrder.save();
     res.status(201).json({res: newOrder});

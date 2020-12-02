@@ -19,6 +19,9 @@ app.use("/menu", menuRoute);
 const orderRoute = require("./routes/orderRoute");
 app.use("/order", orderRoute);
 
+const statisticsRoute = require("./routes/statisticsRoute");
+app.use("/stats", statisticsRoute)
+
 const host = process.env.HOST;
 const port = process.env.PORT;
 server.listen(port, host);
